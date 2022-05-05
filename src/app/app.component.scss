@@ -1,4 +1,7 @@
 
+.parent::-webkit-scrollbar {
+  display: none; /* for Chrome, Safari, and Opera */
+}
 
 .parent {
   display: grid;
@@ -7,11 +10,15 @@
   grid-column-gap: 0px;
   grid-row-gap: 0px;
   height: 100vh;
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+  overflow-y: scroll;
 
   .logo {
     grid-area: 1 / 1 / 2 / 2;
     background-color: #00ac8d;
     padding: 12px;
+    cursor: pointer;
   }
 
   .title-page {
@@ -31,7 +38,8 @@
     }
 
     .notifications {
-
+      color: lightblue;
+      transform: scale(2);
     }
 
   }
@@ -55,6 +63,7 @@
         display: flex;
         gap: 10px;
         align-items: center;
+        cursor: pointer;
       }
 
       span + .option {

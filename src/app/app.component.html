@@ -1,7 +1,7 @@
 <div class="parent">
   <div class="logo">
     <div class="logo">
-      <img src="../assets/images/logo-small.png" height="70">
+      <img src="../assets/images/logo-small.png" height="70" routerLink="/">
     </div>
   </div>
 
@@ -10,21 +10,21 @@
       Início
     </div>
     <div class="title-info">
-      Some info
+      &nbsp;
     </div>
     <div class="notifications">
-      notifications
+      <mat-icon aria-hidden="false" aria-label="Example home icon">notifications</mat-icon>
     </div>
   </div>
 
   <div class="menu">
     <div class="menu-info">
       <span>MÓDULOS</span>
-      <div class="option">
+      <div class="option" routerLink="/module/clients">
         <mat-icon aria-hidden="false" aria-label="Example home icon">people_alt</mat-icon>
         Clientes
       </div>
-      <div class="option">
+      <div class="option" routerLink="/module/orders">
         <mat-icon aria-hidden="false" aria-label="Example home icon">dvr</mat-icon>
         Pedidos
       </div>
@@ -51,7 +51,7 @@
     <div class="user-info">
       <div class="user-img">
         <span class="circle-image">
-          <img src="../assets/images/user.jpeg" />
+          <img src="../assets/images/user.png" />
         </span>
       </div>
       <div class="user-name">
