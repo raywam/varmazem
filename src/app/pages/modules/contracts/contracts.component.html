@@ -1,0 +1,214 @@
+<div class="page">
+  <div class="page-title">
+    CONTRATOS
+  </div>
+  <div class="page-body">
+    <div class="clients-options">
+      <div class="search">
+
+      </div>
+      <div class="buttons">
+        <button mat-raised-button (click)="newContract()">Novo Contrato</button>
+      </div>
+    </div>
+    <div class="parent">
+      <div class="div1">
+        <table mat-table [dataSource]="contracts" class="mat-elevation-z8">
+
+          <ng-container matColumnDef="numero">
+            <th mat-header-cell *matHeaderCellDef> Número. </th>
+            <td mat-cell *matCellDef="let element"> {{ element.numero }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="client">
+            <th mat-header-cell *matHeaderCellDef> Cliente </th>
+            <td mat-cell *matCellDef="let element"> {{ element.client.nome }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef> Status </th>
+            <td mat-cell *matCellDef="let element">
+              <div class="status-icon">
+                <mat-icon [style.color]="getStatusColor(element.statusId)">circle</mat-icon>
+                {{ getStatusDescription(element.statusId) }}
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let element" (click)="setContract(element)">
+              <mat-icon aria-hidden="false" class="go-to-client-icon" aria-label="Example home icon">arrow_forward
+              </mat-icon>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+      <div class="div2">
+        <div class="card" *ngIf="contract || isNew">
+          <form class="page-body" [formGroup]="contractForm" *ngIf="isNew">
+            <div class="contract">
+              <h2>Novo Contrato</h2>
+              <div class="social input-contract">
+                <span>
+                  Cliente
+                </span>
+                <select
+                  formControlName="clientUid">
+                  <option *ngFor="let client of clients" [value]="client.uid">{{ client.nome }}</option>
+                </select>
+              </div>
+              <div class="social input-contract">
+                <span>
+                  Valor
+                </span>
+                <input formControlName="valor" type="text">
+              </div>
+              <div class="social input-contract" >
+                <span>
+                  Data Início
+                </span>
+                <input name="dataInicio" formControlName="dataInicio" placeholder="dd/mm/yyyy" type="text" (keyup)="formatDate($event)">
+              </div>
+              <div class="social input-contract">
+                <span>
+                  Data da Assinatura
+                </span>
+                <input name="dataAssinatura" formControlName="dataAssinatura" placeholder="dd/mm/yyyy" type="text" (keyup)="formatDate($event)">
+              </div>
+              <div class="social input-contract">
+                <span>
+                  Data da Publicação
+                </span>
+                <input name="dataPublicacao" formControlName="dataPublicacao" placeholder="dd/mm/yyyy" type="text" (keyup)="formatDate($event)">
+              </div>
+              <div class="social input-contract">
+                <span>
+                  Data de Início Vigência
+                </span>
+                <input name="dataInicioVigencia" formControlName="dataInicioVigencia" placeholder="dd/mm/yyyy" type="text" (keyup)="formatDate($event)">
+              </div>
+              <div class="social input-contract">
+                <span>
+                  Data da Fim de Vigência
+                </span>
+                <input name="dataFimVigencia" formControlName="dataFimVigencia" placeholder="dd/mm/yyyy" type="text" (keyup)="formatDate($event)">
+              </div>
+              <div class="social input-contract">
+                <span>
+                  Prazo
+                </span>
+                <input formControlName="prazo" type="text">
+              </div>
+              <div class="social input-contract">
+                <span>
+                  Serviço
+                </span>
+                <select formControlName="objContracao">
+                  <option *ngFor="let objContracao of objsContracao" [value]="objContracao">{{ objContracao }}</option>
+                </select>
+              </div>
+              <div class="buttons">
+                <button mat-raised-button color="warn" (click)="saveContrato(false)">
+                  Cancelar
+                </button>
+                <button mat-raised-button color="primary" (click)="saveContrato(true)" [disabled]="contractForm.invalid">
+                  Salvar Contrato
+                </button>
+              </div>
+            </div>
+          </form>
+          <div class="contract" *ngIf="contract">
+            <div class="title">
+              <h1>{{ contract.client.nome }}</h1>
+              <h2>
+                Serviço: {{ contract.objContracao }}
+                <br>
+                <div class="status-icon">
+                  <mat-icon [style.color]="getStatusColor(contract.statusId)">circle</mat-icon>
+                  {{ getStatusDescription(contract.statusId) }}
+                </div>
+              </h2>
+            </div>
+            <div class="content">
+              <div class="social">
+                <span>CNPJ:</span> {{ contract.client.cnpj }}
+              </div>
+              <br>
+              <div class="social">
+                <span>Número do Contrato:</span> {{ contract.numero }}
+              </div>
+              <div class="social">
+                <span>Prazo:</span> {{ contract.prazo }} meses
+              </div>
+              <div class="social">
+                <span>Data da Assinatura:</span> {{ contract.dataAssinatura }}
+              </div>
+              <div class="social">
+                <span>Data da Publicação:</span> {{ contract.dataPublicacao }}
+              </div>
+              <div class="social">
+                <span>Início da Vigência:</span> {{ contract.dataInicioVigencia }}
+              </div>
+              <div class="social">
+                <span>Fim da Vigência:</span> {{ contract.dataFimVigencia }}
+              </div>
+              <div class="cancelamento" *ngIf="contract.dataCancelamento">
+                <div class="social">
+                  <span>Data do Cancelamento</span> {{ contract.dataCancelamento }}
+                </div>
+                <div class="social">
+                  <span>Motivo do Cancelamento</span> {{ contract.motivoCancelamento }}
+                </div>
+              </div>
+              <div class="social">
+                <span>Serviço:</span> {{ contract.objContracao }}
+              </div>
+
+              <div class="social valor-contrato">
+                Valor do Contrato: R${{ contract.valor }}
+              </div>
+
+
+              <div class="request-pagamentos">
+                <button *ngIf="!contract.pagamentos?.length && contract.statusId === 2" mat-raised-button
+                  color="primary" disabled="true" (click)="close()">
+                  Solicitar Pagamento
+                </button>
+
+                <button *ngIf="contract.statusId !== 3" mat-raised-button color="primary"
+                  (click)="openCancelContract()">
+                  Cancelar Contrato
+                </button>
+              </div>
+
+              <div class="pagamentos" *ngIf="contract.pagamentos?.length">
+                <br>
+                <div class="social">
+                  <span>Pagamentos</span>
+                </div>
+                <br>
+                <div class="pagamento" *ngFor="let pagamento of contract.pagamentos">
+                  <div class="pag-title">
+                    {{ pagamento.banco }}
+                    <span>Tipo: {{ pagamento.tipo }}</span>
+                    <span>Data: {{ pagamento.data }}</span>
+                  </div>
+                  <div class="pag-valor">
+                    R${{ pagamento.valor}}
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+          <div class="circle"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

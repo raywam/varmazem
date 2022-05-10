@@ -12,7 +12,7 @@
       </div>
       <div class="card-body">
         <div class="content">
-          <span>90%</span>
+          <span>{{ getActiveClientPercent() }}%</span>
           &nbsp;clientes ativos
         </div>
       </div>
@@ -20,46 +20,19 @@
         <div class="content">
           <div class="footer-info">
             <mat-icon aria-hidden="false" aria-label="Example home icon">face</mat-icon>
-            30 clientes cadastrados
+            {{ totalClients }} clientes cadastrados
           </div>
           <div class="footer-info">
-            <mat-icon aria-hidden="false" aria-label="Example home icon">warning</mat-icon>
-            2 pendências
+
           </div>
         </div>
       </div>
     </div>
 
-    <div class="card" routerLink="/module/orders">
+    <div class="card" routerLink="/module/contracts">
       <div class="card-header">
         <div class="content">
-          ORDENS
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="content">
-          <span>3</span>
-          &nbsp;novas ordens
-        </div>
-      </div>
-      <div class="card-footer">
-        <div class="content">
-          <div class="footer-info">
-            <mat-icon aria-hidden="false" aria-label="Example home icon">trending_up</mat-icon>
-            12 ordens concluídas
-          </div>
-          <div class="footer-info">
-            <mat-icon aria-hidden="false" aria-label="Example home icon">warning</mat-icon>
-            0 pendências
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-header">
-        <div class="content">
-          ARMAZENAGEM
+          CONTRATOS
         </div>
       </div>
       <div class="card-body">
@@ -72,11 +45,10 @@
         <div class="content">
           <div class="footer-info">
             <mat-icon aria-hidden="false" aria-label="Example home icon">inventory</mat-icon>
-            80% da capacidade
+            3 contratos em atraso
           </div>
           <div class="footer-info">
-            <mat-icon aria-hidden="false" aria-label="Example home icon">warning</mat-icon>
-            1 pendência
+
           </div>
         </div>
       </div>
@@ -119,7 +91,7 @@
     <div class="card">
       <div class="card-header">
         <div class="content">
-          CONTRATOS
+          ARMAZENAGEM
         </div>
       </div>
       <div class="card-body">

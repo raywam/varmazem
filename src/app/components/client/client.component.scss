@@ -1,0 +1,150 @@
+.card {
+  position: relative;
+  margin: 30px auto;
+  width: 450px;
+  padding: 20px;
+  box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%), 0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%);
+  border-radius: 1px;
+  border: 0;
+  background-color: white;
+
+  .input-contract {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    input, select {
+      width: 220px;
+      padding: 10px;
+      margin: 4px;
+      z-index: 1;
+    }
+
+    select {
+      border-radius: 20px;
+    }
+  }
+
+  .buttons {
+    display: flex;
+    gap: 20px;
+    padding-top: 12px;
+    justify-content: flex-end;
+  }
+
+  .request-pagamentos {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-top: 25px;
+    gap: 20px;
+  }
+
+  .pagamento {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    text-decoration: none !important;
+    color: black;
+    margin-left: 8px;
+    font-weight: 300;
+    align-items: center;
+
+    .pag-title {
+      display: flex;
+      flex-direction: column;
+      margin: 7px 0;
+      font-weight: 600;
+
+      span {
+        font-size: 14px;
+        font-weight: 100;
+      }
+    }
+
+    .pag-valor {
+      font-size: 20px;
+    }
+  }
+
+  .circle {
+    border-radius: 3px;
+    width: 150px;
+    height: 150px;
+    background: black;
+    position: absolute;
+    right: 0px;
+    top: 0;
+    background-image: linear-gradient(to top, #01ac8c 0%, #a6c1ee 100%);
+    border-bottom-left-radius: 170px;
+  }
+
+  .content {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  h1 {
+    font-size: 34px;
+    font-weight: bold;
+    margin-bottom: 0;
+  }
+
+  h2 {
+    font-size: 18px;
+    letter-spacing: 0.5px;
+    font-weight: 300;
+  }
+
+  .social {
+    margin-bottom: 5px;
+    text-decoration: none !important;
+    margin-left: 8px;
+    font-weight: 300;
+
+    span {
+      font-weight: 500;
+    }
+  }
+
+  .cancelamento {
+    margin: 7px 0;
+    padding: 15px 0;
+    background-color: #f31919;
+    border-radius: 8px;
+    color: white !important;
+  }
+
+  .valor-contrato {
+    padding-top: 18px;
+    font-size: 22px;
+    font-weight: 500;
+    text-align: right;
+  }
+
+  .location {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    i {
+      color: red;
+    }
+    p {
+      font-weight: 300;
+    }
+  }
+}
+
+
+.delete-confirm {
+  margin-top: 20px;
+  padding: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ff00002b;
+  border-radius: 10px;
+  flex-direction: column;
+}

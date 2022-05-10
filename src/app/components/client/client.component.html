@@ -1,0 +1,162 @@
+<div class="card" *ngIf="isNew || isEditing || client">
+  <form class="page-body" [formGroup]="clientForm" *ngIf="isNew || isEditing">
+    <div class="contract">
+      <h2>{{ isEditing ? 'Editar Cliente' : 'Novo Cliente' }} </h2>
+      <div class="social input-contract">
+        <span>
+          Cliente
+        </span>
+        <input formControlName="nome" type="text">
+      </div>
+      <div class="social input-contract">
+        <span>
+          CNPJ
+        </span>
+        <input formControlName="cnpj" type="text">
+      </div>
+      <div class="social input-contract" >
+        <span>
+          Inscrição Estadual
+        </span>
+        <input name="inscricaoEstadual" formControlName="inscricaoEstadual" type="text">
+      </div>
+      <div class="social input-contract">
+        <span>
+          Site
+        </span>
+        <input name="dataAssinatura" formControlName="site" type="text">
+      </div>
+      <div class="social input-contract">
+        <span>
+          email
+        </span>
+        <input name="dataPublicacao" formControlName="email" type="text">
+      </div>
+      <div class="social input-contract">
+        <span>
+          CEP
+        </span>
+        <input name="dataInicioVigencia" formControlName="cep" type="text">
+      </div>
+      <div class="social input-contract">
+        <span>
+          Endereço
+        </span>
+        <input name="dataFimVigencia" formControlName="endereco" type="text">
+      </div>
+      <div class="social input-contract">
+        <span>
+          Número
+        </span>
+        <input formControlName="numero" type="text">
+      </div>
+      <div class="social input-contract">
+        <span>
+          Bairro
+        </span>
+        <input formControlName="bairro" type="text">
+      </div>
+      <div class="social input-contract">
+        <span>
+          Cidade
+        </span>
+        <input formControlName="cidade" type="text">
+      </div>
+      <div class="social input-contract">
+        <span>
+          Estado
+        </span>
+        <input formControlName="estado" type="text">
+      </div>
+      <div class="social input-contract">
+        <span>
+          Telefone
+        </span>
+        <input formControlName="telefone" type="text">
+      </div>
+      <div class="social input-contract">
+        <span>
+          Celular
+        </span>
+        <input formControlName="celular" type="text">
+      </div>
+      <div class="buttons">
+        <button mat-raised-button color="warn" (click)="cancellClient()">
+          Cancelar
+        </button>
+        <button mat-raised-button color="primary" (click)="setClient()" [disabled]="clientForm.invalid">
+          Salvar Contrato
+        </button>
+      </div>
+    </div>
+  </form>
+  <div class="contract" *ngIf="!isNew && !isEditing && client">
+    <div class="title">
+      <h1>{{ client.nome }}</h1>
+      <h2>
+        CNPJ: {{ client.cnpj }}
+        <br>
+
+      </h2>
+    </div>
+    <div class="content">
+      <br>
+      <div class="social">
+        <span>Email:</span> {{ client.email }}
+      </div>
+      <div class="social">
+        <span>Site:</span> {{ client.site }}
+      </div>
+      <div class="social">
+        <span>Celular:</span> {{ client.celular  }}
+      </div>
+      <div class="social">
+        <span>Telefone:</span> {{ client.telefone  }}
+      </div>
+      <br>
+      <div class="social">
+        <span>Rua:</span> {{ client.endereco }}, {{ client.numero }}
+      </div>
+      <div class="social">
+        <span>Bairro:</span> {{ client.bairro }}
+      </div>
+      <div class="social">
+        <span>Cidade:</span> {{ client.cidade }}
+      </div>
+      <div class="social">
+        <span>Estado:</span> {{ client.estado }}
+      </div>
+
+      <div class="delete-confirm" *ngIf="isDeleting">
+        <div class="text">
+          Confirma exclusão do cliente?
+        </div>
+        <div class="buttons">
+          <button mat-mini-fab color="primary" (click)="confirmDelete(false)">
+            <mat-icon>close</mat-icon>
+          </button>
+          <button mat-mini-fab color="warn" (click)="confirmDelete(true)">
+            <mat-icon>done</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <div class="request-pagamentos">
+        <button mat-raised-button
+          color="warm" (click)="setDeleteIntent()">
+          Excluir
+        </button>
+
+        <button mat-raised-button color="primary"
+          (click)="editClient()">
+          Editar
+        </button>
+      </div>
+
+
+
+    </div>
+
+  </div>
+  <div class="circle"></div>
+</div>

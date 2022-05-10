@@ -1,0 +1,26 @@
+<p>Cancelamento de Contrato</p>
+<div class="modal-text">
+  Confirma o cancelamento do contrato?
+</div>
+<div class="social">
+  <span>CNPJ:</span> {{ contract.client.cnpj }}
+</div>
+<div class="social">
+  <span>Número do Contrato:</span> {{ contract.numero }}
+</div>
+<div class="motivo-cancelamento">
+  <div class="social">
+    <span>Motivo do Cancelamento:</span>
+  </div>
+  <input class="input" placeholder="Insira o motivo do cancelamento aqui" [formControl]="motivoCancelamento"/>
+</div>
+<div class="buttons">
+  <button mat-mini-fab color="primary" (click)="confirmCancell(false)">
+    <mat-icon>close</mat-icon>
+  </button>
+  <button mat-mini-fab color="warn" (click)="confirmCancell(true)" [disabled]="!motivoCancelamento.value">
+    <mat-icon>done</mat-icon>
+  </button>
+</div>
+
+
