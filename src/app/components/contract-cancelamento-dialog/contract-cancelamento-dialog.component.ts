@@ -18,14 +18,14 @@ export class ContractCancelamentoDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.contract = this.data.contract;
-    console.log(this.data);
+    // console.log(this.data);
   }
 
   isDisabled() {
-   return !!this.motivoCancelamento.value
+    return !!this.motivoCancelamento.value
   }
 
-  confirmCancell(cancell : boolean) {
+  confirmCancell(cancell: boolean) {
     this.dialogRef.close({ cancell, motivoCancelamento: this.motivoCancelamento.value })
   }
 

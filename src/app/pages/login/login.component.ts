@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private spinnerService: SpinnerOverlayService,
-    private authService : LoginService,
+    private authService: LoginService,
     private router: Router,
     private snackbar: SnackbarService) { }
 
@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
       this.snackbar.openSnackBar(res.msg, 'Fechar');
       this.spinnerService.hide();
     }, error => {
-      console.log(error);
+      // console.log(error);
       this.spinnerService.hide()
       this.message = "Usuário inválido. Tente novamente.";
     })

@@ -96,7 +96,7 @@ export class ChargePaymentsComponent implements OnInit {
 
     this.payments.map(payment => {
       const valor = parseInt(payment.valor);
-      console.log(valor);
+      // console.log(valor);
       if (this.checkIsExpired(payment.prazo)) {
         dash.expired.total += valor;
         dash.expired.payments.push(payment);
@@ -109,7 +109,7 @@ export class ChargePaymentsComponent implements OnInit {
       }
     })
 
-    console.log(dash);
+    // console.log(dash);
     this.dash = dash;
   }
 

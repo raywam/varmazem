@@ -29,7 +29,7 @@ export class ChargeDialogComponent implements OnInit {
   ngOnInit(): void {
     this.contract = this.data.contract;
     this.buildForm();
-    console.log(this.data);
+    // console.log(this.data);
   }
 
   buildForm() {
@@ -42,11 +42,11 @@ export class ChargeDialogComponent implements OnInit {
   }
 
   isDisabled() {
-   //return !!this.motivoCancelamento.value
+    //return !!this.motivoCancelamento.value
   }
 
-  confirmCharge(confirm : boolean) {
-    console.log(this.chargePaymentForm.value)
+  confirmCharge(confirm: boolean) {
+    // console.log(this.chargePaymentForm.value)
     this.dialogRef.close({ confirm, chargeData: this.chargePaymentForm.value })
   }
 

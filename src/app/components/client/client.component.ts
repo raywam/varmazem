@@ -43,7 +43,7 @@ export class ClientComponent implements OnInit {
     private spinnerService: SpinnerOverlayService) { }
 
   ngOnInit(): void {
-    console.log(this.client)
+    // console.log(this.client)
   }
 
   clearClient(): void {
@@ -134,7 +134,7 @@ export class ClientComponent implements OnInit {
       this.isNew = false;
     }
 
-    console.log(this.clientService.getClients())
+    // console.log(this.clientService.getClients())
   }
 
   setDeleteIntent() {

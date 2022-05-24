@@ -34,7 +34,7 @@ export class ClientService {
     return this.httpClient.get<any[]>(this.url).pipe()
   }
 
-  setClient(client: Client): Observable<any>  {
+  setClient(client: Client): Observable<any> {
     return this.httpClient.post<any[]>(this.url, { client }).pipe()
   }
 
@@ -45,7 +45,7 @@ export class ClientService {
     return this.httpClient.put<any[]>(this.url, { client }).pipe()
   }
 
-  editCliente(client: Client): Observable<any>  {
+  editCliente(client: Client): Observable<any> {
     return this.httpClient.put<any[]>(this.url, { client }).pipe()
   }
 
@@ -58,7 +58,7 @@ export class ClientService {
       // Erro ocorreu no lado do servidor
       errorMessage = `Código do erro: ${error.status}, ` + `menssagem: ${error.message}`;
     }
-    console.log(errorMessage);
+    // console.log(errorMessage);
     return throwError(errorMessage);
   };
 }
