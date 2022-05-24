@@ -17,12 +17,14 @@ const contracts = [{
     valor: 2000,
     data: '28/03/2022',
     observacao: 'Entrada (10% do contrato)',
+    pago: true,
   }, {
     banco: 'Banco do Brasil',
     tipo: 'DOC',
     valor: 18000,
     data: '28/03/2022',
     observacao: 'Restante (90% do contrato)',
+    pago: true,
   }],
   "active": true,
   "deleted": false
@@ -45,12 +47,14 @@ const contracts = [{
     valor: 6000,
     data: '28/03/2022',
     observacao: 'Entrada (10% do contrato)',
+    pago: true,
   }, {
     banco: 'Banco do Brasil',
     tipo: 'DOC',
     valor: 54000,
     data: '28/03/2022',
     observacao: 'Restante (90% do contrato)',
+    pago: true,
   }],
   "active": true,
   "deleted": false
@@ -89,6 +93,7 @@ const contracts = [{
     valor: 6000,
     data: '28/03/2022',
     observacao: 'Entrada (10% do contrato)',
+    pago: true,
   }],
   "active": true,
   "deleted": false
@@ -113,6 +118,7 @@ const contracts = [{
     valor: 6000,
     data: '28/03/2022',
     observacao: 'Entrada (10% do contrato)',
+    pago: true,
   }],
   "active": true,
   "deleted": false
@@ -151,6 +157,7 @@ const contracts = [{
     valor: 60000,
     data: '28/03/2022',
     observacao: 'Valor total do contrato',
+    pago: true,
   }],
   "active": true,
   "deleted": false
@@ -173,6 +180,7 @@ const contracts = [{
     valor: 80000,
     data: '28/03/2022',
     observacao: 'Valor total do contrato',
+    pago: true,
   }],
   "active": true,
   "deleted": false
@@ -213,6 +221,7 @@ const contracts = [{
     valor: 12000,
     data: '28/03/2022',
     observacao: 'Valor total do contrato',
+    pago: true,
   }],
   "active": true,
   "deleted": false
@@ -235,6 +244,7 @@ const contracts = [{
     valor: 61000,
     data: '28/03/2022',
     observacao: 'Valor total do contrato',
+    pago: true,
   }],
   "active": true,
   "deleted": false

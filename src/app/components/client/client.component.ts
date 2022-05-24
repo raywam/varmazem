@@ -3,6 +3,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Client } from 'src/app/resources/models/client';
 import { ClientService } from 'src/app/resources/services/client.service';
 import faker from 'faker-br';
+import { SnackbarService } from 'src/app/resources/services/snackbar.service';
+import { CorreiosService } from 'src/app/resources/services/correios.service';
+import { SpinnerOverlayService } from 'src/app/resources/services/spinner-overlay.service';
 
 @Component({
   selector: 'app-client-details',
@@ -33,7 +36,11 @@ export class ClientComponent implements OnInit {
   public isDeleting: Boolean = false;
   public isEditing: Boolean = false;
 
-  constructor(private clientService: ClientService) { }
+  constructor(
+    private clientService: ClientService,
+    private snackbar: SnackbarService,
+    private correiosService: CorreiosService,
+    private spinnerService: SpinnerOverlayService) { }
 
   ngOnInit(): void {
     console.log(this.client)
@@ -43,11 +50,34 @@ export class ClientComponent implements OnInit {
     this.clientForm.reset()
   }
 
+  getCEPData() {
+    const CEP = this.clientForm.controls['cep'].value
+    if (CEP && CEP.length === 8) {
+      this.correiosService.getData(CEP).subscribe(res => {
+        if (res) {
+          this.clientForm.patchValue({
+            endereco: res.logradouro,
+            bairro: res.bairro,
+            cidade: res.localidade,
+            estado: res.uf,
+          });
+        }
+      });
+    }
+  }
+
   confirmDelete(confirm) {
     if (confirm) {
-      this.clientService.deleteCliente(this.client);
-      this.getClients.emit();
-      this.client = null;
+      this.spinnerService.show();
+      this.clientService.deleteCliente(this.client).subscribe(res => {
+        if (res.success) {
+          this.getClients.emit();
+          this.client = null;
+        }
+
+        this.snackbar.openSnackBar(res.msg, 'Fechar');
+        this.spinnerService.hide();
+      }, error => this.spinnerService.hide());
     }
 
     this.isDeleting = false;
@@ -68,18 +98,38 @@ export class ClientComponent implements OnInit {
       const client: Client = this.clientForm.value;
 
       if (this.isEditing) {
-        client.uid = this.client.uid;
-        this.client = this.clientService.editCliente(client);
+        client.uuid = this.client.uuid;
+
+        const clientPatch = {
+          ...this.client,
+          ...client
+        }
+
+        this.spinnerService.show();
+        this.clientService.editCliente(clientPatch).subscribe(res => {
+          if (res.success) {
+            this.getClients.emit();
+          }
+
+          this.snackbar.openSnackBar(res.msg, 'Fechar');
+          this.spinnerService.hide();
+        }, err => this.spinnerService.hide());
       } else {
-        client.uid = faker.random.uuid();
         client.active = true;
         client.deleted = false;
 
         this.client = client;
-        this.clientService.setClient(client);
+        this.spinnerService.show();
+        this.clientService.setClient(client).subscribe(res => {
+          if (res.success) {
+            this.getClients.emit();
+          }
+
+          this.spinnerService.hide();
+          this.snackbar.openSnackBar(res.msg, 'Fechar');
+        }, error => this.spinnerService.hide());
       }
 
-      this.getClients.emit();
       this.isEditing = false;
       this.isNew = false;
     }

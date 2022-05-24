@@ -8,6 +8,12 @@ import { ClientService } from 'src/app/resources/services/client.service';
 import { ContractService } from 'src/app/resources/services/contract.service';
 import faker from 'faker-br';
 import date  from 'src/app/resources/utils/date';
+import { ChargeDialogComponent } from 'src/app/components/charge-dialog/charge-dialog.component';
+import utils from 'src/app/resources/utils/date';
+import { DatePipe } from '@angular/common';
+import { SnackbarService } from 'src/app/resources/services/snackbar.service';
+import { PaymentService } from 'src/app/resources/services/payment.service';
+import { SpinnerOverlayService } from 'src/app/resources/services/spinner-overlay.service';
 
 @Component({
   selector: 'app-contracts',
@@ -16,6 +22,7 @@ import date  from 'src/app/resources/utils/date';
 })
 export class ContractsComponent implements OnInit {
   displayedColumns: string[] = ['numero', 'client', 'status', 'action'];
+  pipe = new DatePipe('en-US');
   searchClient = new FormControl('');
   client = new FormControl('');
   isNew: boolean = false;
@@ -31,11 +38,11 @@ export class ContractsComponent implements OnInit {
   contractForm = new FormGroup({
     clientUid: new FormControl('', Validators.required),
     valor: new FormControl('', Validators.required),
-    dataInicio: new FormControl('', Validators.required),
-    dataAssinatura: new FormControl('', Validators.required),
-    dataPublicacao: new FormControl('', Validators.required),
-    dataInicioVigencia: new FormControl('', Validators.required),
-    dataFimVigencia: new FormControl('', Validators.required),
+    dataInicio: new FormControl(this.pipe.transform(Date.now(), 'dd/MM/yyyy'), Validators.required),
+    dataAssinatura: new FormControl(this.pipe.transform(Date.now(), 'dd/MM/yyyy'), Validators.required),
+    dataPublicacao: new FormControl(this.pipe.transform(Date.now(), 'dd/MM/yyyy'), Validators.required),
+    dataInicioVigencia: new FormControl(this.pipe.transform(Date.now(), 'dd/MM/yyyy'), Validators.required),
+    dataFimVigencia: new FormControl(this.pipe.transform(Date.now(), 'dd/MM/yyyy'), Validators.required),
     objContracao: new FormControl('', Validators.required),
     prazo: new FormControl('', Validators.required)
   })
@@ -44,19 +51,36 @@ export class ContractsComponent implements OnInit {
     private clientService: ClientService,
     private contractService: ContractService,
     private dialog: MatDialog,
+    private snackbar: SnackbarService,
+    private paymentService: PaymentService,
+    private spinnerService: SpinnerOverlayService,
   ) { }
 
   ngOnInit(): void {
-    this.getContracts();
-    this.getClients();
+    this.getClients({ first: true });
+    this.contract = this.contracts[0];
   }
 
-  getClients() {
-    this.clients = this.clientService.getClients();
+  getClients({ first }) {
+    this.spinnerService.show();
+    this.clientService.getClients().subscribe(res => {
+      this.clients = res.data.filter(client => !client.deleted);
+      this.getContracts(res.data, first);
+    }, error => this.spinnerService.hide());
   }
 
-  getContracts() {
-    this.contracts = this.contractService.getContracts();
+  getContracts(clients, first) {
+    this.contractService.getContracts().subscribe(res => {
+      if (res.success) {
+        const contracts = res.data.filter(contract => !contract.deleted );
+        this.contracts = [];
+        this.contracts = this.contractService.contractsWithClient(contracts, clients);
+
+        if (first) this.contract = this.contracts[0];
+      }
+
+      this.spinnerService.hide();
+    }, error => this.spinnerService.hide());
   }
 
   getStatusDescription(statusId) {
@@ -84,12 +108,59 @@ export class ContractsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result.cancell) {
-        this.contract.dataCancelamento = date.getDate();
-        this.contract.statusId = 3;
-        this.contract.motivoCancelamento = result.motivoCancelamento;
+        const contract = {
+          ...this.contract,
+          dataCancelamento: date.getDate(),
+          statusId: 3,
+          motivoCancelamento: result.motivoCancelamento
+        }
 
-        this.contractService.cancellContract(this.contract);
-        this.getContracts();
+        this.spinnerService.show();
+        this.contractService.cancelContract(contract).subscribe(res => {
+          if (res.success) {
+            this.getClients({ first: false });
+            this.contract = contract;
+          }
+
+          this.spinnerService.hide();
+          this.snackbar.openSnackBar(res.msg, 'Fechar');
+        }, error => this.spinnerService.hide())
+
+        this.getClients({ first: false });
+      }
+    });
+  }
+
+  openChargePayment() {
+    const dialogRef = this.dialog.open(ChargeDialogComponent, {
+      width: '400px',
+      data: {
+        contract: this.contract
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result.confirm) {
+        const chargeData = result.chargeData;
+
+        const payment = {
+          ...chargeData,
+          contractUid: this.contract.uuid,
+          pago: false,
+          cnpj: this.contract.client.cnpj,
+          email: this.contract.client.email,
+        }
+
+        this.spinnerService.show();
+        this.paymentService.postPayments(payment).subscribe(res => {
+          if (res.success) {
+            this.contract.pagamentos.push(payment);
+            this.getClients({ first: false });
+          }
+
+          this.spinnerService.hide();
+          this.snackbar.openSnackBar(res.msg, 'Fechar');
+        }, error => this.spinnerService.hide())
       }
     });
   }
@@ -97,9 +168,14 @@ export class ContractsComponent implements OnInit {
   saveContrato(save: boolean) {
     if (save) {
       const contract: Contract = this.contractForm.value;
-      this.contractService.setContract(contract);
-      this.getContracts();
-      this.contract = this.contracts[0];
+      this.spinnerService.show();
+      this.contractService.setContract(contract).subscribe(res => {
+        if (res.success) {
+          this.snackbar.openSnackBar('Contrato cadastrado com sucesso!', 'Fechar');
+          this.getClients({ first: true });
+          this.spinnerService.hide();
+        }
+      }, error => this.spinnerService.hide());
     }
 
     this.isNew = false;
@@ -107,16 +183,10 @@ export class ContractsComponent implements OnInit {
 
   formatDate(element) {
     const { currentTarget: { name } } = element;
-    let v = this.contractForm.controls[name].value
-
-    if (v.match(/^\d{2}$/) !== null) {
-        v = v + '/';
-    } else if (v.match(/^\d{2}\/\d{2}$/) !== null) {
-        v = v + '/';
-    }
+    const value = this.contractForm.controls[name].value
 
     this.contractForm.patchValue({
-      [name]: v,
+      [name]: utils.formatDate(value),
     });
   }
 
@@ -135,4 +205,7 @@ export class ContractsComponent implements OnInit {
     return status[statusId];
   }
 
+  formatPrazoDate(date) {
+    return this.pipe.transform(date, 'dd/MM/yyyy')
+  }
 }

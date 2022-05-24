@@ -1,6 +1,6 @@
 <div class="page">
   <div class="page-title">
-    MÓDULOS ONLINE
+    MÓDULOS
   </div>
 
   <div class="page-cards">
@@ -11,16 +11,14 @@
         </div>
       </div>
       <div class="card-body">
-        <div class="content">
-          <span>{{ getActiveClientPercent() }}%</span>
-          &nbsp;clientes ativos
+        <div class="content offline">
+          <mat-icon aria-hidden="false" aria-label="Example home icon">face</mat-icon>
         </div>
       </div>
       <div class="card-footer">
         <div class="content">
           <div class="footer-info">
             <mat-icon aria-hidden="false" aria-label="Example home icon">face</mat-icon>
-            {{ totalClients }} clientes cadastrados
           </div>
           <div class="footer-info">
 
@@ -54,23 +52,16 @@
       </div>
     </div>
 
-  </div>
-
-  <div class="page-title">
-    MÓDULOS OFFLINE
-  </div>
-
-  <div class="page-cards">
-    <div class="card">
+    <div class="card" routerLink="/module/charge-payments">
       <div class="card-header">
         <div class="content">
-          FINANCEIRO
+          COBRANÇAS
         </div>
       </div>
       <div class="card-body">
         <div class="content offline">
           <span>
-            <mat-icon aria-hidden="false" aria-label="Example home icon">wifi_off</mat-icon>
+            <mat-icon aria-hidden="false" aria-label="Example home icon">local_atm</mat-icon>
           </span>
         </div>
       </div>
@@ -78,60 +69,6 @@
         <div class="content">
           <div class="footer-info">
             <mat-icon aria-hidden="false" aria-label="Example home icon">local_atm</mat-icon>
-
-          </div>
-          <div class="footer-info">
-            <mat-icon aria-hidden="false" aria-label="Example home icon">warning</mat-icon>
-
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-header">
-        <div class="content">
-          ARMAZENAGEM
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="content offline">
-          <span>
-            <mat-icon aria-hidden="false" aria-label="Example home icon">wifi_off</mat-icon>
-          </span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <div class="content">
-          <div class="footer-info">
-            <mat-icon aria-hidden="false" aria-label="Example home icon">insert_drive_file</mat-icon>
-
-          </div>
-          <div class="footer-info">
-            <mat-icon aria-hidden="false" aria-label="Example home icon">warning</mat-icon>
-
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-header">
-        <div class="content">
-          PARCEIROS
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="content offline">
-          <span>
-            <mat-icon aria-hidden="false" aria-label="Example home icon">wifi_off</mat-icon>
-          </span>
-        </div>
-      </div>
-      <div class="card-footer">
-        <div class="content">
-          <div class="footer-info">
-            <mat-icon aria-hidden="false" aria-label="Example home icon">contacts</mat-icon>
 
           </div>
           <div class="footer-info">

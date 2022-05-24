@@ -1,0 +1,39 @@
+<p>Solicitar Pagamento</p>
+<br>
+<div class="social">
+  <span>CNPJ:</span> {{ contract.client.cnpj }}
+</div>
+<div class="social">
+  <span>Número do Contrato:</span> {{ contract.numero }}
+</div>
+<div class="social flex">
+  <span>Valor do Contrato:</span>
+  <div class="value">R$ {{ contract.valor }}</div>
+</div>
+<br>
+<form [formGroup]="chargePaymentForm">
+  <div class="input-charge">
+    <div class="social">
+      <span>Prazo de Pagamento:</span>
+    </div>
+    <div class="flex">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <input matInput [matDatepicker]="picker" formControlName="prazo">
+    </div>
+  </div>
+  <div class="input-charge">
+    <div class="social">
+      <span>Observação:</span>
+    </div>
+    <input class="input" name="valor" type="text" placeholder="Observação" formControlName="observacao" />
+  </div>
+</form>
+<div class="buttons">
+  <button mat-mini-fab color="primary" (click)="confirmCharge(false)">
+    <mat-icon>close</mat-icon>
+  </button>
+  <button mat-mini-fab color="warn" (click)="confirmCharge(true)" [disabled]="chargePaymentForm.invalid">
+    <mat-icon>done</mat-icon>
+  </button>
+</div>

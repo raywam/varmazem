@@ -77,6 +77,8 @@
     top: 0;
     background-image: linear-gradient(to top, #01ac8c 0%, #a6c1ee 100%);
     border-bottom-left-radius: 170px;
+    z-index: 5;
+    position: absolute;
   }
 
   .content {
@@ -147,4 +149,9 @@
   background-color: #ff00002b;
   border-radius: 10px;
   flex-direction: column;
+}
+
+.contract {
+  z-index: 10;
+  position: inherit;
 }

@@ -11,7 +11,7 @@
         <button mat-raised-button (click)="newContract()">Novo Contrato</button>
       </div>
     </div>
-    <div class="parent">
+    <div class="parent" *ngIf="contracts && contracts.length > 0">
       <div class="div1">
         <table mat-table [dataSource]="contracts" class="mat-elevation-z8">
 
@@ -58,7 +58,7 @@
                 </span>
                 <select
                   formControlName="clientUid">
-                  <option *ngFor="let client of clients" [value]="client.uid">{{ client.nome }}</option>
+                  <option *ngFor="let client of clients" [value]="client.uuid">{{ client.nome }}</option>
                 </select>
               </div>
               <div class="social input-contract">
@@ -71,31 +71,31 @@
                 <span>
                   Data Início
                 </span>
-                <input name="dataInicio" formControlName="dataInicio" placeholder="dd/mm/yyyy" type="text" (keyup)="formatDate($event)">
+                <input name="dataInicio" formControlName="dataInicio" placeholder="dd/mm/yyyy" maxlength="10" type="text" (keyup)="formatDate($event)">
               </div>
               <div class="social input-contract">
                 <span>
                   Data da Assinatura
                 </span>
-                <input name="dataAssinatura" formControlName="dataAssinatura" placeholder="dd/mm/yyyy" type="text" (keyup)="formatDate($event)">
+                <input name="dataAssinatura" formControlName="dataAssinatura" placeholder="dd/mm/yyyy" maxlength="10" type="text" (keyup)="formatDate($event)">
               </div>
               <div class="social input-contract">
                 <span>
                   Data da Publicação
                 </span>
-                <input name="dataPublicacao" formControlName="dataPublicacao" placeholder="dd/mm/yyyy" type="text" (keyup)="formatDate($event)">
+                <input name="dataPublicacao" formControlName="dataPublicacao" placeholder="dd/mm/yyyy" maxlength="10" type="text" (keyup)="formatDate($event)">
               </div>
               <div class="social input-contract">
                 <span>
                   Data de Início Vigência
                 </span>
-                <input name="dataInicioVigencia" formControlName="dataInicioVigencia" placeholder="dd/mm/yyyy" type="text" (keyup)="formatDate($event)">
+                <input name="dataInicioVigencia" formControlName="dataInicioVigencia" placeholder="dd/mm/yyyy" maxlength="10" type="text" (keyup)="formatDate($event)">
               </div>
               <div class="social input-contract">
                 <span>
                   Data da Fim de Vigência
                 </span>
-                <input name="dataFimVigencia" formControlName="dataFimVigencia" placeholder="dd/mm/yyyy" type="text" (keyup)="formatDate($event)">
+                <input name="dataFimVigencia" formControlName="dataFimVigencia" placeholder="dd/mm/yyyy" maxlength="10" type="text" (keyup)="formatDate($event)">
               </div>
               <div class="social input-contract">
                 <span>
@@ -175,7 +175,7 @@
 
               <div class="request-pagamentos">
                 <button *ngIf="!contract.pagamentos?.length && contract.statusId === 2" mat-raised-button
-                  color="primary" disabled="true" (click)="close()">
+                  color="primary" disabled="false" (click)="openChargePayment()">
                   Solicitar Pagamento
                 </button>
 
@@ -192,13 +192,25 @@
                 </div>
                 <br>
                 <div class="pagamento" *ngFor="let pagamento of contract.pagamentos">
-                  <div class="pag-title">
+                  <!-- <div class="pag-title" *ngIf="pagamento.pago">
                     {{ pagamento.banco }}
                     <span>Tipo: {{ pagamento.tipo }}</span>
                     <span>Data: {{ pagamento.data }}</span>
+                    <span class="pag-status pago">Status: Pago</span>
+                  </div> -->
+                  <div class="pag-title">
+                    {{ pagamento.observacao }}
+                    <span>Prazo: {{ formatPrazoDate(pagamento.prazo) }}</span>
+                    <span class="pag-status" [ngClass]="pagamento.statusId === 1 ? 'pago' : 'warn'">
+                      Status: {{ pagamento.statusId === 1 ? 'Pagamento Efetuado' : 'Pagamento Pendente' }}
+                    </span>
                   </div>
                   <div class="pag-valor">
                     R${{ pagamento.valor}}
+                    <!-- <button *ngIf="!pagamento.pago" mat-raised-button color="warn"
+                      (click)="openCancelContract()">
+                      Cobrar
+                    </button> -->
                   </div>
                 </div>
               </div>

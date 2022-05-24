@@ -1,67 +1,62 @@
-<div class="parent">
-  <div class="logo">
-    <div class="logo">
-      <img src="../assets/images/logo-small.png" height="70" routerLink="/">
+<div class="wrapper">
+  <div class="overlay" *ngIf="showSpinner">
+    <div class="spinner-wrapper">
+      <app-spinner></app-spinner>
     </div>
   </div>
 
-  <div class="title-page">
-    <div class="title">
-      &nbsp;
-    </div>
-    <div class="title-info">
-      &nbsp;
-    </div>
-    <div class="notifications">
-      <mat-icon aria-hidden="false" aria-label="Example home icon">notifications</mat-icon>
-    </div>
-  </div>
-
-  <div class="menu">
-    <div class="menu-info">
-      <span>MÓDULOS</span>
-      <div class="option" routerLink="/module/clients">
-        <mat-icon aria-hidden="false" aria-label="Example home icon">people_alt</mat-icon>
-        Clientes
-      </div>
-      <div class="option" routerLink="/module/contracts">
-        <mat-icon aria-hidden="false" aria-label="Example home icon">warehouse</mat-icon>
-        Contratos
-      </div>
-      <div class="option">
-        <mat-icon aria-hidden="false" aria-label="Example home icon">monetization_on</mat-icon>
-        Financeiro
-      </div>
-      <div class="option">
-        <mat-icon aria-hidden="false" aria-label="Example home icon">contact_page</mat-icon>
-        Armazenagem
-      </div>
-      <div class="option">
-        <mat-icon aria-hidden="false" aria-label="Example home icon">person_4</mat-icon>
-        Parceiros
-      </div>
-    </div>
-  </div>
-
-  <div class="user">
-    <div class="user-info">
-      <div class="user-img">
-        <span class="circle-image">
-          <img src="../assets/images/user.png" />
-        </span>
-      </div>
-      <div class="user-name">
-        <span>Raywam Shinkoda</span>
-        Administrador
-      </div>
-      <div class="user-icons">
-        <mat-icon aria-hidden="false" aria-label="Example home icon">build</mat-icon>
-        <mat-icon aria-hidden="false" aria-label="Example home icon">logout</mat-icon>
-      </div>
-    </div>
-  </div>
-
-  <div class="body-page">
+  <div *ngIf="!authenticated">
     <router-outlet></router-outlet>
   </div>
+
+  <div class="loaded-content" [class.blurred]="showSpinner" *ngIf="authenticated">
+    <div class="parent">
+      <div class="logo">
+        <div class="logo">
+          <img src="../assets/images/logo-small.png" height="70" routerLink="/home">
+        </div>
+      </div>
+
+      <div class="menu">
+        <div class="menu-info">
+          <span>MÓDULOS</span>
+          <div class="option" routerLink="/module/clients">
+            <mat-icon aria-hidden="false" aria-label="Example home icon">people_alt</mat-icon>
+            Clientes
+          </div>
+          <div class="option" routerLink="/module/contracts">
+            <mat-icon aria-hidden="false" aria-label="Example home icon">warehouse</mat-icon>
+            Contratos
+          </div>
+          <div class="option" routerLink="/module/charge-payments">
+            <mat-icon aria-hidden="false" aria-label="Example home icon">monetization_on</mat-icon>
+            Cobranças
+          </div>
+        </div>
+      </div>
+
+      <div class="user">
+        <div class="user-info">
+          <div class="user-img">
+            <span class="circle-image">
+              <img src="../assets/images/user.png" />
+            </span>
+          </div>
+          <div class="user-name">
+            <span>Raywam Shinkoda</span>
+            Administrador
+          </div>
+          <div class="user-icons">
+            <mat-icon aria-hidden="false" aria-label="Example home icon">build</mat-icon>
+            <mat-icon aria-hidden="false" aria-label="Example home icon" (click)="logout()">logout</mat-icon>
+          </div>
+        </div>
+      </div>
+
+      <div class="body-page">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
 </div>
+

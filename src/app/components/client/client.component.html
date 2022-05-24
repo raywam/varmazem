@@ -24,31 +24,31 @@
         <span>
           Site
         </span>
-        <input name="dataAssinatura" formControlName="site" type="text">
+        <input name="site" formControlName="site" type="text">
       </div>
       <div class="social input-contract">
         <span>
           email
         </span>
-        <input name="dataPublicacao" formControlName="email" type="text">
+        <input name="email" formControlName="email" type="text">
       </div>
       <div class="social input-contract">
         <span>
           CEP
         </span>
-        <input name="dataInicioVigencia" formControlName="cep" type="text">
+        <input name="cep" formControlName="cep" type="text" maxLength="8" (blur)="getCEPData()">
       </div>
       <div class="social input-contract">
         <span>
           Endereço
         </span>
-        <input name="dataFimVigencia" formControlName="endereco" type="text">
+        <input name="endereco" formControlName="endereco" type="text">
       </div>
       <div class="social input-contract">
         <span>
           Número
         </span>
-        <input formControlName="numero" type="text">
+        <input formControlName="numero" maxLength="10" type="text">
       </div>
       <div class="social input-contract">
         <span>

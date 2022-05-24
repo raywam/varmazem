@@ -1,67 +1,64 @@
 import { Injectable } from '@angular/core';
 import { Client } from '../models/client';
+import { Observable, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { retry, catchError } from 'rxjs/operators';
 import clients from '../../../assets/data/clients.js'
+import { environment } from 'src/environments/environment';
+import { LoginService } from './login.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClientService {
-  clients: Client[] = clients;
+  url = `${environment.varmazemAPI}/client`
 
-  constructor() { }
+  httpOptions;
 
-  getClients() {
-    return this.clients.filter(client => !client.deleted );
+  constructor(
+    private httpClient: HttpClient,
+    private loginService: LoginService) {
+    this.buildHttpOptions();
   }
 
-  getAllClients() {
-    return this.clients;
+  buildHttpOptions() {
+    const headers = new Headers();
+    headers.append('Access-Control-Allow-Headers', 'Content-Type');
+    headers.append('Access-Control-Allow-Methods', 'GET');
+    headers.append('Access-Control-Allow-Origin', '*');
+
+    this.httpOptions = headers;
   }
 
-  setClient(client: Client) {
-    this.clients.unshift(client)
+  getClients(): Observable<any> {
+    return this.httpClient.get<any[]>(this.url).pipe()
   }
 
-  deleteCliente(clientDeleting: Client) {
-    this.clients.map(client => {
-      if (client.uid === clientDeleting.uid) {
-        client.deleted = true;
-      }
-    })
+  setClient(client: Client): Observable<any>  {
+    return this.httpClient.post<any[]>(this.url, { client }).pipe()
   }
 
-  editCliente(clientEditing: Client) {
-    let clientAux;
+  deleteCliente(client: Client): Observable<any> {
+    client.active = false;
+    client.deleted = true;
 
-    const clientsAux = this.clients.map(client => {
-      if (client.uid === clientEditing.uid) {
-        clientAux = {
-          ...client,
-          ...clientEditing
-        }
-
-        return clientAux;
-      }
-
-      return client;
-    });
-
-    this.clients = clientsAux;
-
-    return clientAux;
+    return this.httpClient.put<any[]>(this.url, { client }).pipe()
   }
 
-  filterByName(name) {
-    const result = [ ...this.clients.filter(client => !client.deleted && client.nome.toLowerCase().search(name) >= 0) ]
-
-    return result;
+  editCliente(client: Client): Observable<any>  {
+    return this.httpClient.put<any[]>(this.url, { client }).pipe()
   }
 
-  totalActiveClients() {
-    return this.clients.filter(client => client.active && !client.deleted ).length;
-  }
-
-  totalClients() {
-    return this.getClients().length;
-  }
+  handleError(error: HttpErrorResponse) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      // Erro ocorreu no lado do client
+      errorMessage = error.error.message;
+    } else {
+      // Erro ocorreu no lado do servidor
+      errorMessage = `Código do erro: ${error.status}, ` + `menssagem: ${error.message}`;
+    }
+    console.log(errorMessage);
+    return throwError(errorMessage);
+  };
 }

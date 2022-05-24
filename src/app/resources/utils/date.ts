@@ -10,4 +10,16 @@ const getDate = () => {
   return (dd + '/' + mm + '/' + yyyy);
 }
 
-export default { getDate }
+const formatDate = (value) => {
+  let v = value
+
+  if (v.match(/^\d{2}$/) !== null) {
+      v = v + '/';
+  } else if (v.match(/^\d{2}\/\d{2}$/) !== null) {
+      v = v + '/';
+  }
+
+  return v;
+}
+
+export default { getDate, formatDate }

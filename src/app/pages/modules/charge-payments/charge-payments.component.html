@@ -1,0 +1,100 @@
+<div class="page">
+  <div class="page-title">
+    COBRANÇAS
+  </div>
+  <div class="dash" *ngIf="payments && payments.length > 0">
+
+    <div class="dash-card">
+      <div class="icon">
+        <mat-icon>done</mat-icon>
+      </div>
+      <div class="number">
+        <span>{{ dash.received.payments.length }}</span>
+        Recebidos
+      </div>
+      <div class="total">
+        R$ {{ dash.received.total }}
+      </div>
+    </div>
+
+    <div class="dash-card">
+      <div class="icon">
+        <mat-icon>schedule</mat-icon>
+      </div>
+      <div class="number">
+        <span>{{ dash.toReceive.payments.length }}</span>
+        A receber
+      </div>
+      <div class="total">
+        R$ {{ dash.toReceive.total }}
+      </div>
+    </div>
+
+    <div class="dash-card">
+      <div class="icon">
+        <mat-icon>timer_off</mat-icon>
+      </div>
+      <div class="number">
+        <span>{{ dash.expired.payments.length }}</span>
+        Cobranças vencidas
+      </div>
+      <div class="total">
+        R$ {{ dash.expired.total }}
+      </div>
+    </div>
+
+  </div>
+  <div class="charge-payments" *ngIf="payments && payments.length > 0">
+    <div class="action-buttons">
+      <button mat-raised-button (click)="setFilter()">Todos</button>
+      <button mat-raised-button class="received" (click)="setFilter('received', 'Recebidos')">Recebidos</button>
+      <button mat-raised-button color="accent" (click)="setFilter('toReceive', 'A Receber')">A Receber</button>
+      <button mat-raised-button color="warn" (click)="setFilter('expired', 'Vencidos')">Vencidos</button>
+      <span>Exibindo: {{ showing }}</span>
+    </div>
+    <mat-grid-list cols="3" rowHeight="3:2">
+      <mat-grid-tile *ngFor="let payment of paymentsFilter">
+        <div class="charge-payment">
+          <div class="charge-card">
+            <div class="charge-title">
+              {{ payment.client.nome }}
+              <span [ngStyle]="{background: getStatusColor(payment.statusId, payment.prazo)}">
+                {{ getStatusDescription(payment.statusId, payment.prazo) }}
+              </span>
+            </div>
+            <div class="charge-contract">
+              <span>CNPJ</span>
+              {{ payment.client.cnpj }}
+            </div>
+            <div class="charge-contract">
+              <span>Número do Contrato</span>
+              {{ payment.contract.numero }}
+            </div>
+            <div class="charge-contract">
+              <span>Data de Validade</span>
+              {{ formatDate(payment.prazo, 'dd/MM/yyyy') }}
+            </div>
+            <div class="charge-contract">
+              <span>Solicitado por:</span>
+              {{ payment.createdBy }}
+            </div>
+            <div class="charge-contract">
+              <span>Solicitado em:</span>
+              {{ formatDate(payment.createdAt, 'dd/MM/yyyy HH:mm') }}
+            </div>
+            <div class="charge-contract">
+              <span>Observação:</span>
+              {{ payment.observacao }}
+            </div>
+            <div class="charge-contract value">
+              <span>Valor</span>
+              <div class="charge-value">
+                R$ {{ payment.contract.valor }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+</div>

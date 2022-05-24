@@ -17,6 +17,20 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ContractsComponent } from './pages/modules/contracts/contracts.component';
 import { ContractCancelamentoDialogComponent } from './components/contract-cancelamento-dialog/contract-cancelamento-dialog.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { ChargeDialogComponent } from './components/charge-dialog/charge-dialog.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ChargePaymentsComponent } from './pages/modules/charge-payments/charge-payments.component';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { SpinnerComponent } from './components/spinner/spinner.component';
+import { LoginComponent } from './pages/login/login.component';
+import { AuthGuard } from './resources/guards/auth.guard';
+import { TokenInterceptorService } from './resources/services/interceptors/token-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -27,20 +41,41 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     ClientComponent,
     ContractsComponent,
     ContractCancelamentoDialogComponent,
+    ChargeDialogComponent,
+    ChargePaymentsComponent,
+    SpinnerComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     MatMenuModule,
     MatIconModule,
     MatButtonModule,
     ReactiveFormsModule,
     MatTableModule,
     MatDialogModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatSnackBarModule,
+    MatGridListModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
+    MatInputModule,
+    MatButtonToggleModule
   ],
-  providers: [],
+  providers: [
+    MatDatepickerModule,
+    MatNativeDateModule,
+    AuthGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

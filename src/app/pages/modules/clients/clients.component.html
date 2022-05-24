@@ -12,9 +12,9 @@
         <button mat-raised-button (click)="setIsNew()">Novo Cliente</button>
       </div>
     </div>
-    <div class="parent">
+    <div class="parent" *ngIf="clients && clients.length > 0">
       <div class="div1">
-        <table mat-table [dataSource]="clients" class="mat-elevation-z8">
+        <table mat-table [dataSource]="clientsFilter" class="mat-elevation-z8">
 
           <ng-container matColumnDef="nome">
             <th mat-header-cell *matHeaderCellDef> Nome. </th>

@@ -7,20 +7,11 @@ import { ClientService } from 'src/app/resources/services/client.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  totalActiveClients: number = 0;
-  totalClients: number = 0;
-
   constructor(
-    private clientService: ClientService
   ) { }
 
   ngOnInit(): void {
-    this.totalActiveClients = this.clientService.totalActiveClients();
-    this.totalClients = this.clientService.totalClients();
   }
 
-  public getActiveClientPercent() {
-    return Math.round(this.totalActiveClients / this.totalClients * 100)
-  }
 
 }

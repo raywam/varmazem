@@ -1,69 +1,84 @@
 import { Injectable } from '@angular/core';
 import contracts from '../../../assets/data/contracts.js'
 import { Contract } from '../models/contract';
-import { ClientService } from './client.service.js';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { retry, catchError } from 'rxjs/operators';
 import faker from 'faker-br';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContractService {
+  url = `${environment.varmazemAPI}/contract`
   contracts: Contract[] = contracts;
+  httpOptions;
 
   constructor(
-    private clientService: ClientService
-  ) { }
+    private httpClient: HttpClient
+  ) {
+    this.buildHttpOptions();
+  }
 
-  contractsWithClient(contracts) {
-    const clients = this.clientService.getAllClients();
+  buildHttpOptions() {
+    const headers = new Headers();
+    headers.append('Access-Control-Allow-Headers', 'Content-Type');
+    headers.append('Access-Control-Allow-Methods', 'GET');
+    headers.append('Access-Control-Allow-Origin', '*');
 
+    this.httpOptions = headers;
+  }
+
+  contractsWithClient(contracts, clients) {
     const contractsAux = contracts.map(contract => {
       return {
         ...contract,
-        client: clients.find(client => client.uid === contract.clientUid)
+        client: clients.find(client => client.uuid === contract.clientUid)
       }
     })
 
     return contractsAux;
   }
 
-  getContracts() {
-    const contracts = this.contracts.filter(contract => !contract.deleted );
-
-    return this.contractsWithClient(contracts);
+  getContracts(): Observable<any> {
+    return this.httpClient.get<any[]>(this.url).pipe()
+      .pipe()
   }
 
-  setContract(contract: Contract) {
-    contract.uid = faker.random.uuid();
-    contract.active = true;
-    contract.deleted = false;
+  setContract(contract: Contract): Observable<any> {
     contract.numero = faker.random.number();
-    contract.statusId = 2;
-    contract.pagamentos = [];
 
-    this.contracts.unshift(contract)
-
-    return contract;
+    return this.httpClient.post<any[]>(this.url, { contract }).pipe()
   }
 
-  cancellContract(contractDeleting: Contract) {
+  cancelContract(contract: Contract): Observable<any>  {
+    const contractAux = { ...contract };
+    delete contractAux.client;
+
+    return this.httpClient.put<any[]>(this.url, { contract }).pipe()
+  }
+
+  setContractPayment(contractEditing: Contract, payment) {
     const contractsAux = this.contracts.map(contract => {
-      if (contract.uid === contractDeleting.uid) {
+      if (contract.uuid === contractEditing.uuid) {
         return {
           ...contract,
-          ...contractDeleting
+          pagamentos: [
+            payment
+          ]
         }
       }
 
       return contract;
-    })
+    });
 
     this.contracts = contractsAux;
   }
 
   editContract(contractEditing: Contract) {
     const contractsAux = this.contracts.map(contract => {
-      if (contract.uid === contractEditing.uid) {
+      if (contract.uuid === contractEditing.uuid) {
         return {
           ...contract,
           ...contractEditing
@@ -87,6 +102,6 @@ export class ContractService {
   }
 
   totalContracts() {
-    return this.getContracts().length;
+    //return this.getContracts().length;
   }
 }

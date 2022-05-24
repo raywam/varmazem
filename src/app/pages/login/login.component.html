@@ -1,0 +1,15 @@
+<div class="login-page">
+  <div class="form">
+    <div class="img">
+      <img src="../assets/images/logo-small.png" height="70" >
+    </div>
+    <form class="login-form" [formGroup]="loginForm">
+      <input type="email" id="email" placeholder="Email" autocomplete="off" formControlName="user" required>
+      <input type="password" id="password" placeholder="Senha" autocomplete="off" formControlName="password" required>
+      <button (click)="login()" [disabled]="loginForm.invalid">login</button>
+    </form>
+    <div class="message">
+      {{ message }}
+    </div>
+  </div>
+</div>

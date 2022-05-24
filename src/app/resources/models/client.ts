@@ -1,5 +1,5 @@
 export interface Client {
-  uid?: string;
+  uuid?: string;
   nome?: string;
   cnpj?: string;
   inscricaoEstadual?: string;

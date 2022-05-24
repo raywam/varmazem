@@ -74,6 +74,9 @@
         }
 
         .pagamento {
+          padding: 5px 13px;
+          border-radius: 8px;
+          background-color: #a0c0e8;
           display: flex;
           justify-content: space-between;
           margin-bottom: 5px;
@@ -82,6 +85,18 @@
           margin-left: 8px;
           font-weight: 300;
           align-items: center;
+
+          .pag-status {
+            font-weight: bold !important;
+          }
+
+          .warn {
+            color: red;
+          }
+
+          .pago {
+            color: green;
+          }
 
           .pag-title {
             display: flex;
@@ -97,6 +112,10 @@
 
           .pag-valor {
             font-size: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
           }
         }
 
@@ -110,6 +129,8 @@
           top: 0;
           background-image: linear-gradient(to top, #01ac8c 0%, #a6c1ee 100%);
           border-bottom-left-radius: 170px;
+          z-index: 5;
+          position: absolute;
         }
 
         .content {
@@ -192,4 +213,9 @@
   justify-content: flex-start;
   align-items: center;
   gap: 15px;
+}
+
+.contract {
+  z-index: 10;
+  position: inherit;
 }

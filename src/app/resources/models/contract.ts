@@ -1,7 +1,7 @@
 import { Client } from './client';
 
 export interface Contract {
-  uid?: string;
+  uuid?: string;
   clientUid?: string;
   client?: Client;
   numero?: number;
@@ -26,6 +26,8 @@ interface Payment {
   banco?: string;
   tipo?: string;
   valor?: number;
+  prazo?: string;
   data?: string;
   observacao?: string;
+  pago?: boolean;
 }
