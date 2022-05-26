@@ -97,7 +97,7 @@ export class ChargePaymentsComponent implements OnInit {
     this.payments.map(payment => {
       const valor = parseInt(payment.valor);
       // console.log(valor);
-      if (this.checkIsExpired(payment.prazo)) {
+      if (payment.statusId !== 1 && this.checkIsExpired(payment.prazo)) {
         dash.expired.total += valor;
         dash.expired.payments.push(payment);
       } else if (payment.statusId === 1) {

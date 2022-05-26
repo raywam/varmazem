@@ -173,8 +173,8 @@ export class ContractsComponent implements OnInit {
         if (res.success) {
           this.snackbar.openSnackBar('Contrato cadastrado com sucesso!', 'Fechar');
           this.getClients({ first: true });
-          this.spinnerService.hide();
         }
+        this.spinnerService.hide();
       }, error => this.spinnerService.hide());
     }
 

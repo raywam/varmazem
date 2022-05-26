@@ -50,7 +50,7 @@ export class LoginService {
     this.token = '';
     this.authenticated.next(false);
     this.setToken('');
-    this.router.navigate(['/home']);
+    this.router.navigate(['/login']);
   }
 
   setToken(token) {
