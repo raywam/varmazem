@@ -24,7 +24,15 @@ export class LoginComponent implements OnInit {
     private snackbar: SnackbarService) { }
 
   ngOnInit() {
+    this.verifyToken();
+  }
 
+  verifyToken() {
+    const token = this.authService.getToken();
+
+    if (token) {
+      this.router.navigate(['/home']);
+    }
   }
 
   login() {

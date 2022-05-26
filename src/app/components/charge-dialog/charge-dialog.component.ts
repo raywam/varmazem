@@ -33,12 +33,14 @@ export class ChargeDialogComponent implements OnInit {
   }
 
   buildForm() {
+    const date = new Date();
+    date.setDate(date.getDate() + 7);
+
     this.chargePaymentForm = new FormGroup({
       valor: new FormControl(this.contract.valor, Validators.required),
-      prazo: new FormControl(new Date(), Validators.required),
+      prazo: new FormControl(date, Validators.required),
       observacao: new FormControl('', Validators.required),
     })
-
   }
 
   isDisabled() {
