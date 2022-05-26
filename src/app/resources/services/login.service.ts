@@ -59,6 +59,12 @@ export class LoginService {
   }
 
   getToken() {
-    return this.token ? this.token : localStorage.getItem('token');
+    const token = this.token ? this.token : localStorage.getItem('token');
+
+    if (token) {
+      return token
+    }
+
+    this.logoutUser();
   }
 }
